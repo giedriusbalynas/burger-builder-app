@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import styles from './Layout.module.css';
+import styles from './Layout.css';
 
 const layout = (props) => (
     <Fragment>
@@ -7,7 +7,6 @@ const layout = (props) => (
         <main className={styles.Content}>
             {props.children}
         </main>
-        {console.log(styles)}
     </Fragment>
 );
 
