@@ -6,6 +6,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import queryString from 'query-string';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -59,7 +60,7 @@ class BurgerBuilder extends Component {
         const priceAddition = INGREDIENT_PRICES[type];
         const oldPrice = this.state.totalPrice;
         const newPrice = oldPrice + priceAddition;
-        this.setState({totalPrice: newPrice, ingredients: updatedIngredients})
+        this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
         this.updatePurchaseState(updatedIngredients);
 
     };
@@ -91,27 +92,23 @@ class BurgerBuilder extends Component {
     };
 
     purchaseContinueHandler = () => {
-        console.log(this.props);
-        this.props.history.push('/checkout', this.state);
+        const query = queryString.stringify({
+            price: this.state.totalPrice,
+            ingredients: JSON.stringify(this.state.ingredients)
+    });
 
-        // this.setState({loading: true});
-        // const order = {
-        //     ingredients: this.state.ingredients,
-        //     price: this.state.totalPrice,
-        //     customer: {
-        //         name: 'Test Name',
-        //         address: {
-        //             street: 'Teststreet 1',
-        //             zipCode: '12345',
-        //             country: 'Lithuania'
-        //         },
-        //         email: 'test@test.com'
-        //     },
-        //     deliveryMethod: 'fastest'
-        // };
-        // axios.post('/orders.json', order)
-        //     .then(response => this.setState({loading: false, purchasing: false}))
-        //     .catch(error => this.setState({loading: false, purchasing: false}));
+        console.log(query);
+        this.props.history.push({
+            pathname: '/checkout',
+            search: query
+        });
+        // const queryParams = [];
+        // for (let i in this.state.ingredients) {
+        //     queryParams.push(i + '=' + this.state.ingredients[i])
+        // }
+        // const queryString = queryParams.join('&');
+        //
+
     };
 
     render() {

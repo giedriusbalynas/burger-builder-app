@@ -1,27 +1,30 @@
 import React, {Component} from 'react';
-import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary'
+import {Route} from 'react-router-dom';
+import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
+import ContactData from './ContactData/ContactData';
+import queryString from 'query-string';
 
 class Checkout extends Component {
     state = {
-        ingredients: {
-            salad: 1,
-            meat: 1,
-            cheese: 1,
-            bacon: 1
-        },
+        ingredients: {},
         totalPrice: 0
     };
 
     componentDidMount() {
-        let ingredientsData = this.props.history.location.state.ingredients;
-        let CheckoutIngredients = {
-            salad: ingredientsData.salad,
-            meat: ingredientsData.meat,
-            cheese: ingredientsData.cheese,
-            bacon: ingredientsData.bacon
-        };
-        let checkoutPrice = this.props.location.state.totalPrice;
-        this.setState({ingredients: CheckoutIngredients, totalPrice: checkoutPrice})
+        const query = queryString.parse(this.props.location.search, {parseNumbers: true});
+        const ingredients = JSON.parse(query.ingredients);
+        this.setState({ingredients: ingredients, totalPrice: query.price});
+
+        //Unfortunately i can't do this:
+        // let ingredientsData = this.props.history.location.state.ingredients;
+        // let CheckoutIngredients = {
+        //     salad: ingredientsData.salad,
+        //     meat: ingredientsData.meat,
+        //     cheese: ingredientsData.cheese,
+        //     bacon: ingredientsData.bacon
+        // };
+        // let checkoutPrice = this.props.location.state.totalPrice;
+        // this.setState({ingredients: CheckoutIngredients, totalPrice: checkoutPrice})
     }
 
     checkoutCancelledHandler = () => {
@@ -29,10 +32,7 @@ class Checkout extends Component {
     };
 
     checkoutContinueHandler = () => {
-        console.log(this.props.history.location.state)
-
-
-        // this.props.history.replace('/checkout/contact-data');
+        this.props.history.replace('/checkout/contact-data');
     };
 
     render() {
@@ -43,6 +43,10 @@ class Checkout extends Component {
                     ingredients={this.state.ingredients}
                     checkoutCancelled={this.checkoutCancelledHandler}
                     checkoutContinue={this.checkoutContinueHandler}
+                />
+                <Route
+                    path={this.props.match.path + '/contact-data'}
+                    render={(props) => (<ContactData ingredients={this.state.ingredients} price={this.state.totalPrice} {...props} />)}
                 />
             </div>
         )
