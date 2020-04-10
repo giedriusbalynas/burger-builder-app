@@ -13,6 +13,7 @@ class Checkout extends Component {
     componentDidMount() {
         const query = queryString.parse(this.props.location.search, {parseNumbers: true});
         const ingredients = JSON.parse(query.ingredients);
+        console.log(query.ingredients);
         this.setState({ingredients: ingredients, totalPrice: query.price});
 
         //Unfortunately i can't do this:
@@ -46,7 +47,12 @@ class Checkout extends Component {
                 />
                 <Route
                     path={this.props.match.path + '/contact-data'}
-                    render={(props) => (<ContactData ingredients={this.state.ingredients} price={this.state.totalPrice} {...props} />)}
+                    render={(props) => (
+                        <ContactData
+                            ingredients={this.state.ingredients}
+                            price={this.state.totalPrice}
+                            {...props}
+                        />)}
                 />
             </div>
         )
