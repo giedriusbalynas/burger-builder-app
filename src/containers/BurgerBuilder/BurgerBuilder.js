@@ -97,7 +97,6 @@ class BurgerBuilder extends Component {
             ingredients: JSON.stringify(this.state.ingredients)
     });
 
-        console.log(query);
         this.props.history.push({
             pathname: '/checkout',
             search: query
@@ -107,8 +106,6 @@ class BurgerBuilder extends Component {
         //     queryParams.push(i + '=' + this.state.ingredients[i])
         // }
         // const queryString = queryParams.join('&');
-        //
-
     };
 
     render() {

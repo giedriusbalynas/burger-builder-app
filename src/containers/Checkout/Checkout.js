@@ -13,7 +13,6 @@ class Checkout extends Component {
     componentDidMount() {
         const query = queryString.parse(this.props.location.search, {parseNumbers: true});
         const ingredients = JSON.parse(query.ingredients);
-        console.log(query.ingredients);
         this.setState({ingredients: ingredients, totalPrice: query.price});
 
         //Unfortunately i can't do this:
