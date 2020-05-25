@@ -29,13 +29,17 @@ export const fetchIngredientFailed = () => {
 };
 
 export const initIngredients = () => {
-    return dispatch => {
-        axios.get('https://burger-builder-9a848.firebaseio.com/ingredients.json')
-            .then(response => {
-                dispatch(setIngredients(response.data))
-            })
-            .catch(error => {
-                dispatch(fetchIngredientFailed());
-            });
+    return {
+        type: actionTypes.INIT_INGREDIENTS
     }
+    // BEFORE REDUX_SAGAS:
+    // return dispatch => {
+    //     axios.get('https://burger-builder-9a848.firebaseio.com/ingredients.json')
+    //         .then(response => {
+    //             dispatch(setIngredients(response.data))
+    //         })
+    //         .catch(error => {
+    //             dispatch(fetchIngredientFailed());
+    //         });
+    // }
 };
