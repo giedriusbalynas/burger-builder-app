@@ -19,7 +19,6 @@ const orderSummary = props => {
             <Button btnType="Success" clicked={props.purchaseContinued}>CONTINUE</Button>
         </Fragment>
     )
-
 };
 
 export default orderSummary;
