@@ -1,41 +1,34 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment, useState } from 'react';
 import {connect} from 'react-redux';
 import styles from './Layout.css';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
-class Layout extends Component {
-    state = {
-        showSideDrawer: false
+const layout = props => {
+    const [drawerState, setDrawerState] = useState(false);
+
+    const sideDrawerClosedHandler = () => {
+        setDrawerState(false)
     };
 
-    sideDrawerClosedHandler = () => {
-        this.setState({showSideDrawer: false})
+    const sideDrawerToggleHandler = () => {
+        setDrawerState(!drawerState);
     };
-
-    sideDrawerToggleHandler = () => {
-        this.setState((prevState) => {
-            return {showSideDrawer: !this.state.showSideDrawer}
-        })
-    };
-
-    render() {
         return (
             <Fragment>
                 <Toolbar
-                    isAuth={this.props.isAuthenticated}
-                    drawerToggleClicked={this.sideDrawerToggleHandler}/>
+                    isAuth={props.isAuthenticated}
+                    drawerToggleClicked={sideDrawerToggleHandler}/>
                 <SideDrawer
-                    isAuth={this.props.isAuthenticated}
-                    open={this.state.showSideDrawer}
-                    closed={this.sideDrawerClosedHandler}/>
+                    isAuth={props.isAuthenticated}
+                    open={drawerState}
+                    closed={sideDrawerClosedHandler}/>
                 <main className={styles.Content}>
-                    {this.props.children}
+                    {props.children}
                 </main>
             </Fragment>
         )
-    }
-}
+};
 
 const mapStateToProps = state => {
     return {
@@ -43,4 +36,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Layout);
+export default connect(mapStateToProps)(layout);
